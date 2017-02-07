@@ -108,11 +108,17 @@
 
 	'use strict';
 	
+	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	} : function (obj) {
+	  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	};
 	
 	var _Event = __webpack_require__(4);
 	
@@ -122,10 +128,11 @@
 	
 	var _componentClasses2 = _interopRequireDefault(_componentClasses);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { "default": obj };
+	}
 	
-	var isCssAnimationSupported = _Event2.default.endEvents.length !== 0;
-	
+	var isCssAnimationSupported = _Event2["default"].endEvents.length !== 0;
 	
 	var capitalPrefixes = ['Webkit', 'Moz', 'O',
 	// ms is special .... !
@@ -134,6 +141,11 @@
 	
 	function getStyleProperty(node, name) {
 	  var style = window.getComputedStyle(node);
+	
+	  // FF bug: sometimes style is empty, throwing an error at line 22
+	  if (!style) {
+	    return 0;
+	  }
 	
 	  var ret = '';
 	  for (var i = 0; i < prefixes.length; i++) {
@@ -176,7 +188,7 @@
 	  var end = endCallback;
 	  var start = void 0;
 	  var active = void 0;
-	  var nodeClasses = (0, _componentClasses2.default)(node);
+	  var nodeClasses = (0, _componentClasses2["default"])(node);
 	
 	  if (endCallback && Object.prototype.toString.call(endCallback) === '[object Object]') {
 	    end = endCallback.end;
@@ -203,7 +215,7 @@
 	    nodeClasses.remove(className);
 	    nodeClasses.remove(activeClassName);
 	
-	    _Event2.default.removeEndEventListener(node, node.rcEndListener);
+	    _Event2["default"].removeEndEventListener(node, node.rcEndListener);
 	    node.rcEndListener = null;
 	
 	    // Usually this optional end is used for informing an owner of
@@ -213,7 +225,7 @@
 	    }
 	  };
 	
-	  _Event2.default.addEndEventListener(node, node.rcEndListener);
+	  _Event2["default"].addEndEventListener(node, node.rcEndListener);
 	
 	  if (start) {
 	    start();
@@ -256,7 +268,7 @@
 	
 	    clearBrowserBugTimeout(node);
 	
-	    _Event2.default.removeEndEventListener(node, node.rcEndListener);
+	    _Event2["default"].removeEndEventListener(node, node.rcEndListener);
 	    node.rcEndListener = null;
 	
 	    // Usually this optional callback is used for informing an owner of
@@ -266,7 +278,7 @@
 	    }
 	  };
 	
-	  _Event2.default.addEndEventListener(node, node.rcEndListener);
+	  _Event2["default"].addEndEventListener(node, node.rcEndListener);
 	
 	  node.rcAnimTimeout = setTimeout(function () {
 	    for (var s in style) {
@@ -294,7 +306,7 @@
 	
 	cssAnimation.isCssAnimationSupported = isCssAnimationSupported;
 	
-	exports.default = cssAnimation;
+	exports["default"] = cssAnimation;
 	module.exports = exports['default'];
 
 /***/ },
@@ -374,7 +386,6 @@
 	    });
 	  },
 	
-	
 	  endEvents: endEvents,
 	
 	  removeEndEventListener: function removeEndEventListener(node, eventListener) {
@@ -387,7 +398,7 @@
 	  }
 	};
 	
-	exports.default = TransitionEvents;
+	exports["default"] = TransitionEvents;
 	module.exports = exports['default'];
 
 /***/ },
